@@ -1,0 +1,38 @@
+{
+    "quiz": {
+        "sport": {
+            "q1": {
+                "question": "Which team did Kobe Bryant play for?",
+                "options": [
+                    "New York Knicks",
+                    "Los Angeles Lakers",
+                    "Golden State Warriors",
+                    "Houston Rockets"
+                ],
+                "answer": "Los Angeles Lakers"
+            }
+        },
+        "maths": {
+            "q1": {
+                "question": "5 + 7 = ?",
+                "options": [
+                    "10",
+                    "11",
+                    "12",
+                    "13"
+                ],
+                "answer": "12"
+            },
+            "q2": {
+                "question": "12 - 8 = ?",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                "answer": "4"
+            }
+        }
+    }
+}

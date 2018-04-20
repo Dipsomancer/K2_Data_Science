@@ -1,0 +1,14 @@
+{
+    "apples": {
+        "price": 2.59,
+        "state": "New York"
+    },
+    "bananas": {
+        "price": 2.99,
+        "state": "California"
+    },
+    "oranges": {
+        "price": 1.99,
+        "state": "Florida"
+    }
+}
