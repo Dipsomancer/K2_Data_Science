@@ -1,0 +1,23 @@
+{'results': 
+  [{'address_components':
+  [{'long_name': '88', 'short_name': '88', 'types':
+  ['street_number']},
+{'long_name': 'University Place', 'short_name': 'University Pl', 'types':
+['route']}, {'long_name': 'Manhattan', 'short_name': 'Manhattan', 'types':
+['political', 'sublocality', 'sublocality_level_1']}
+, {'long_name': 'New York', 'short_name': 'New York', 'types':
+['locality', 'political']},
+{'long_name': 'New York County', 'short_name': 'New York County', 'types':
+['administrative_area_level_2', 'political']},
+{'long_name': 'New York', 'short_name': 'NY', 'types':
+['administrative_area_level_1', 'political']},
+{'long_name': 'United States', 'short_name': 'US', 'types':
+['country', 'political']},
+{'long_name': '10003', 'short_name': '10003', 'types':
+['postal_code']}], 'formatted_address': '88 University Pl, New York, NY 10003, USA', 'geometry':
+{'location':
+{'lat': 40.733751, 'lng': -73.9932623}, 'location_type': 'ROOFTOP', 'viewport':
+{'northeast':
+{'lat': 40.73509998029149, 'lng': -73.99191331970849}, 'southwest':
+{'lat': 40.73240201970849, 'lng': -73.9946112802915}}}, 'place_id': 'ChIJDeoyyJlZwokR_CcVJuRX0pM', 'types':
+['street_address']}], 'status': 'OK'}

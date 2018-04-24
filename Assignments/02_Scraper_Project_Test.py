@@ -1,30 +1,30 @@
+'''
 import requests
 
 GOOGLE_MAPS_API_URL = 'http://maps.googleapis.com/maps/api/geocode/json'
 
 params = {
-    'address': '221B Baker Street, London, United Kingdom',
+    'address': '524 4th Avenue, Brooklyn, United States',
     'sensor': 'false',
-    'region': 'uk'
+    'region': 'us'
 }
 
 # Do the request and get the response data
 req = requests.get(GOOGLE_MAPS_API_URL, params=params)
-res = req.json()
+res = req.json() # .json() = JSON decoder
 
 # Use the first result
 result = res['results'][0]
 
-geodata = dict()
-geodata['lat'] = result['geometry']['location']['lat']
-geodata['lng'] = result['geometry']['location']['lng']
-geodata['address'] = result['formatted_address']
+political = dict()
+political['county'] = result['address_components'][4]['long_name']
+print('{county}'.format(**political)) #Review
 
-print('{address}. (lat, lng) = ({lat}, {lng})'.format(**geodata))
-# 221B Baker Street, London, Greater London NW1 6XE, UK. (lat, lng) = (51.5237038, -0.1585531)
+#print(res)
 
-#Wikipedia
 '''
+#Wikipedia
+
 import lxml
 import wikipedia
 
@@ -32,7 +32,9 @@ from bs4 import BeautifulSoup
 
 #wikipedia.search("Barack")
 
-ny = wikipedia.page("New York")
+ny = wikipedia.page("Kings County")
+
+#https://en.wikipedia.org/wiki/List_of_counties_in_New_York
 
 #soup = BeautifulSoup(wikipedia.page("New York"), "lxml")
 
@@ -49,7 +51,6 @@ ny = wikipedia.page("New York")
 #wikipedia.set_lang("fr")
 #wikipedia.summary("Facebook", sentences=1)
 
-'''
 #SQL
 '''
 import sqlite3
