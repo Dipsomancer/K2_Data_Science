@@ -30,34 +30,23 @@ import wikipedia
 
 from bs4 import BeautifulSoup
 
-#wikipedia.search("Barack")
-
-ny = wikipedia.page("Kings County")
-
 #https://en.wikipedia.org/wiki/List_of_counties_in_New_York
 
-#soup = BeautifulSoup(wikipedia.page("New York"), "lxml")
+New_York = wikipedia.WikipediaPage(pageid = 82159)
 
-#print(soup.prettify(soup))
+#print(New_York.html())
 
-#ny.title
+soup = BeautifulSoup(New_York.html(), 'html.parser')
 
-#ny.url
-
-#ny.content
-
-#ny.links[0]
-
-#wikipedia.set_lang("fr")
-#wikipedia.summary("Facebook", sentences=1)
+print(soup.prettify(soup))
 
 #SQL
 '''
 import sqlite3
 
 sqlite_file = 'my_db.sqlite'
-
 conn = sqlite3.connect(sqlite_file)
+
 c = conn.cursor()
 
 #where the database file (sqlite_file) can reside anywhere on our disk, e.g.,
