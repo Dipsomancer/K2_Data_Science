@@ -27,6 +27,7 @@ print('{county}'.format(**political)) #Review
 
 import lxml
 import wikipedia
+import pandas as pd
 
 from bs4 import BeautifulSoup
 
@@ -38,7 +39,66 @@ New_York = wikipedia.WikipediaPage(pageid = 82159)
 
 soup = BeautifulSoup(New_York.html(), 'html.parser')
 
-print(soup.prettify(soup))
+#print(soup.prettify())
+
+#print(soup.find_all('a'))
+
+#for county in soup.find_all('a'):
+#    if county.parent.name == 'li':
+#        print (county["title"])
+
+table = soup.find_all('table')[2]
+
+#print(table.a['title'])
+#for county in soup.find_all('table')[2]:
+#    if county.parent.name == 'td':
+#        print (county["title"])
+
+new_table = pd.DataFrame(columns = range(0,10), index = [0])
+
+#new_table = pd.DataFrame(size = (10,62), columns=['County','FIPS Code','County seat','Created','Formed from','Named for','Density','2010 Population','Area','Map'])
+
+
+#row_marker = 0
+#for row in table.find_all('tr'):
+#    column_marker = 0
+#    columns = row.find_all('td')
+#    for column in columns:
+#        new_table.iat[row_marker,column_marker] = column.get_text()
+#        column_marker += 1
+
+#print(new_table)
+
+for a in table.find_all('tr'):
+    for b in a.find_all('td')
+        print(b.find_all('a'))
+
+
+#for row in table.find_all('tr'):
+#    column_marker = 0
+#    columns = row.find_all('td')
+#    for column in columns:
+#        print(column.find_all('a'))
+
+#for link in table.find_all('a'):
+#    print(link.get('title'))
+
+#print(table)
+
+'''
+data = []
+table = soup.find('table' attrs = {'class':'wikitable sortable jquery-tablesorter'})
+table_body = table.find('tbody')
+
+rows = table_body.find_all('tr')
+for row in rows:
+    cols = row.find_all('td')
+    cols = [ele.text.strip() for ele in cols]
+    data.append([ele for ele in cols if ele])
+'''
+#for county in soup.find_all('a'):
+#    if county.parent.name == 'title.wikitable.sortable.jquery-tablesorter':
+#        print (county["title"])
 
 #SQL
 '''
