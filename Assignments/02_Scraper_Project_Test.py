@@ -68,11 +68,16 @@ new_table = pd.DataFrame(columns = range(0,10), index = [0])
 #        column_marker += 1
 
 #print(new_table)
+new_york_table = []
 
-for a in table.find_all('tr'):
-    for b in a.find_all('td')
-        print(b.find_all('a'))
+for table_row in table.find_all('tr'):
+    new_york_table.append(table_row.text)
+    row_in_data = []
+    for cell in table_row.find_all('td'):
+        row_in_data.append(cell.text.strip())#.encode('utf-8'))
+    new_york_table.append(row_in_data)
 
+print(new_york_table)
 
 #for row in table.find_all('tr'):
 #    column_marker = 0
