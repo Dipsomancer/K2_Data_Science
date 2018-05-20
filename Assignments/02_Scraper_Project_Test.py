@@ -3,8 +3,10 @@ import requests
 
 GOOGLE_MAPS_API_URL = 'http://maps.googleapis.com/maps/api/geocode/json'
 
+ADDRESS = input('What is you address (For example --> 524 4th Avenue, Brooklyn, United States)? ')
+
 params = {
-    'address': '524 4th Avenue, Brooklyn, United States',
+    'address': ADDRESS,
     'sensor': 'false',
     'region': 'us'
 }
@@ -35,60 +37,41 @@ from bs4 import BeautifulSoup
 
 New_York = wikipedia.WikipediaPage(pageid = 82159)
 
-#print(New_York.html())
-
 soup = BeautifulSoup(New_York.html(), 'html.parser')
-
-#print(soup.prettify())
-
-#print(soup.find_all('a'))
-
-#for county in soup.find_all('a'):
-#    if county.parent.name == 'li':
-#        print (county["title"])
 
 table = soup.find_all('table')[2]
 
-#print(table.a['title'])
-#for county in soup.find_all('table')[2]:
-#    if county.parent.name == 'td':
-#        print (county["title"])
-
 new_table = pd.DataFrame(columns = range(0,10), index = [0])
 
-#new_table = pd.DataFrame(size = (10,62), columns=['County','FIPS Code','County seat','Created','Formed from','Named for','Density','2010 Population','Area','Map'])
-
-
-#row_marker = 0
-#for row in table.find_all('tr'):
-#    column_marker = 0
-#    columns = row.find_all('td')
-#    for column in columns:
-#        new_table.iat[row_marker,column_marker] = column.get_text()
-#        column_marker += 1
-
-#print(new_table)
 new_york_table = []
 
 for table_row in table.find_all('tr'):
     new_york_table.append(table_row.text)
     row_in_data = []
     for cell in table_row.find_all('td'):
-        row_in_data.append(cell.text.strip())#.encode('utf-8'))
+        if 'span' in cell:
+            row_in_data.append(cell.find(text=True).span.decompose().strip())
+        elif 'href' in cell:
+            row_in_data.append(cell.find(text=True).a.decompose().strip())
+        elif 'sortkey' in cell:
+            row_in_data.append('')
+        elif '♠' in cell:
+            row_in_data.append('')
+        else:
+            row_in_data.append(cell.find(text=True).strip())
     new_york_table.append(row_in_data)
 
+#for table_row in table.find_all('tr'):
+#    new_york_table.append(table_row.text)
+#    row_in_data = []
+#    for cell in table_row.find_all('td'):
+#        #row_in_data.append(cell.text.strip()).encode('utf-8')
+#        #row_in_data.append(cell.text.strip())
+#        row_in_data.append(cell.find(text=True).strip())
+#        #row_in_data.append(cell.text.strip()).encode('ascii')
+#    new_york_table.append(row_in_data)
+
 print(new_york_table)
-
-#for row in table.find_all('tr'):
-#    column_marker = 0
-#    columns = row.find_all('td')
-#    for column in columns:
-#        print(column.find_all('a'))
-
-#for link in table.find_all('a'):
-#    print(link.get('title'))
-
-#print(table)
 
 '''
 data = []
