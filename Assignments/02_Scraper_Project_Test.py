@@ -46,30 +46,14 @@ new_table = pd.DataFrame(columns = range(0,10), index = [0])
 new_york_table = []
 
 for table_row in table.find_all('tr'):
-    new_york_table.append(table_row.text)
     row_in_data = []
     for cell in table_row.find_all('td'):
-        if 'span' in cell:
-            row_in_data.append(cell.find(text=True).span.decompose().strip())
-        elif 'href' in cell:
-            row_in_data.append(cell.find(text=True).a.decompose().strip())
-        elif 'sortkey' in cell:
-            row_in_data.append('')
-        elif '♠' in cell:
-            row_in_data.append('')
-        else:
-            row_in_data.append(cell.find(text=True).strip())
+        if cell == None:
+            continue
+        if cell.span:
+            cell.span.decompose()
+        row_in_data.append(cell.find(text=True).strip().replace(u'\xa0',' '))
     new_york_table.append(row_in_data)
-
-#for table_row in table.find_all('tr'):
-#    new_york_table.append(table_row.text)
-#    row_in_data = []
-#    for cell in table_row.find_all('td'):
-#        #row_in_data.append(cell.text.strip()).encode('utf-8')
-#        #row_in_data.append(cell.text.strip())
-#        row_in_data.append(cell.find(text=True).strip())
-#        #row_in_data.append(cell.text.strip()).encode('ascii')
-#    new_york_table.append(row_in_data)
 
 print(new_york_table)
 
