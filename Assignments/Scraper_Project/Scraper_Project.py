@@ -1,72 +1,77 @@
+'''
 import requests
 
 GOOGLE_MAPS_API_URL = 'http://maps.googleapis.com/maps/api/geocode/json'
 
+ADDRESS = input('What is you address (For example --> 524 4th Avenue, Brooklyn, United States)? ')
+
 params = {
-    'address': '221B Baker Street, London, United Kingdom',
+    'address': ADDRESS,
     'sensor': 'false',
-    'region': 'uk'
+    'region': 'us'
 }
 
 # Do the request and get the response data
 req = requests.get(GOOGLE_MAPS_API_URL, params=params)
-res = req.json()
+res = req.json() # .json() = JSON decoder
 
 # Use the first result
 result = res['results'][0]
 
-geodata = dict()
-geodata['lat'] = result['geometry']['location']['lat']
-geodata['lng'] = result['geometry']['location']['lng']
-geodata['address'] = result['formatted_address']
+political = dict()
+political['county'] = result['address_components'][4]['long_name']
+print('{county}'.format(**political)) #Review
 
-print('{address}. (lat, lng) = ({lat}, {lng})'.format(**geodata))
-# 221B Baker Street, London, Greater London NW1 6XE, UK. (lat, lng) = (51.5237038, -0.1585531)
+#print(res)
 
+'''
 #Wikipedia
 '''
 import lxml
 import wikipedia
+import pandas as pd
 
 from bs4 import BeautifulSoup
 
-#wikipedia.search("Barack")
+#https://en.wikipedia.org/wiki/List_of_counties_in_New_York
 
-ny = wikipedia.page("New York")
+New_York = wikipedia.WikipediaPage(pageid = 82159)
 
-#soup = BeautifulSoup(wikipedia.page("New York"), "lxml")
+soup = BeautifulSoup(New_York.html(), 'html.parser')
 
-#print(soup.prettify(soup))
+table = soup.find_all('table')[2]
 
-#ny.title
+new_york_table = []
 
-#ny.url
+for table_row in table.find_all('tr'):
+    row_in_data = []
+    for cell in table_row.find_all('td'):
+        if cell == None:
+            continue
+        if cell.span:
+            cell.span.decompose()
+        row_in_data.append(cell.find(text=True).strip().replace(u'\xa0',' '))
+    new_york_table.append(row_in_data)
 
-#ny.content
-
-#ny.links[0]
-
-#wikipedia.set_lang("fr")
-#wikipedia.summary("Facebook", sentences=1)
-
+print(new_york_table)
 '''
 #SQL
-'''
+
 import sqlite3
 
-sqlite_file = 'my_db.sqlite'
-
-conn = sqlite3.connect(sqlite_file)
-c = conn.cursor()
+#Wikipedia Table - county_name, FIPS_Code, County_Seat, Created, Formed_From, Named_For, Density, 2010_Pop, Area, Map
+#User Entry Table - Entry_ID, Timestamp, county_name, FIPS_Code, County_Seat, Created, Formed_From, Named_For, Density, 2010_Pop, Area, Map
 
 #where the database file (sqlite_file) can reside anywhere on our disk, e.g.,
-
 
 sqlite_file = 'my_first_db.sqlite'    # name of the sqlite database file
 table_name1 = 'my_table_1'  # name of the table to be created
 table_name2 = 'my_table_2'  # name of the table to be created
 new_field = 'my_1st_column' # name of the column
 field_type = 'INTEGER'  # column data type
+
+table_name3 = 'my_table_3'  # name of the table to be created
+new_field2 = 'my_2nd_column' # name of the column
 
 # Connecting to the database file
 conn = sqlite3.connect(sqlite_file)
@@ -80,11 +85,16 @@ c.execute('CREATE TABLE {tn} ({nf} {ft})'\
 # note that PRIMARY KEY column must consist of unique values!
 c.execute('CREATE TABLE {tn} ({nf} {ft} PRIMARY KEY)'\
         .format(tn=table_name2, nf=new_field, ft=field_type))
-
 # Committing changes and closing the connection to the database file
+
+#Test
+c.execute('CREATE TABLE {tn} ({nf} {ft} PRIMARY KEY, {nf1} {ft1})'\
+        .format(tn=table_name3, nf=new_field, ft=field_type, nf1=new_field2, ft1=field_type))
+
+
 conn.commit()
 conn.close()
-
+'''
 # Connecting to the database file
 conn = sqlite3.connect(sqlite_file)
 c = conn.cursor()
