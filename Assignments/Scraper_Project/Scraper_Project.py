@@ -59,58 +59,29 @@ print(new_york_table)
 
 import sqlite3
 
-#Wikipedia Table - county_name, FIPS_Code, County_Seat, Created, Formed_From, Named_For, Density, 2010_Pop, Area, Map
-#User Entry Table - Entry_ID, Timestamp, county_name, FIPS_Code, County_Seat, Created, Formed_From, Named_For, Density, 2010_Pop, Area, Map
+#Create Database and Tables if they don't exist
 
-#where the database file (sqlite_file) can reside anywhere on our disk, e.g.,
+try:
 
-sqlite_file = 'my_first_db.sqlite'    # name of the sqlite database file
-table_name1 = 'my_table_1'  # name of the table to be created
-table_name2 = 'my_table_2'  # name of the table to be created
-new_field = 'my_1st_column' # name of the column
-field_type = 'INTEGER'  # column data type
+    #Create Wikipedia Table and User Entry Table
 
-table_name3 = 'my_table_3'  # name of the table to be created
-new_field2 = 'my_2nd_column' # name of the column
+    # Connecting to the database file
+    conn = sqlite3.connect('County_DB.sqlite')
+    c = conn.cursor()
 
-# Connecting to the database file
-conn = sqlite3.connect(sqlite_file)
-c = conn.cursor()
+    #Wikipedia_Table
+    c.execute('CREATE TABLE WIKIPEDIA_TABLE (County_Name TEXT PRIMARY KEY, FIPS_Code TEXT, County_Seat TEXT, Created TEXT, Formed_From TEXT, Named_For TEXT,Density TEXT, Pop_2010 TEXT, Area TEXT)')
 
-# Creating a new SQLite table with 1 column
-c.execute('CREATE TABLE {tn} ({nf} {ft})'\
-        .format(tn=table_name1, nf=new_field, ft=field_type))
+    #User Entry Table
+    c.execute('CREATE TABLE USER_ENTRY_TABLE (Entry_ID INTEGER PRIMARY KEY AUTOINCREMENT, User_Address TEXT, Entry_Timestamp Timestamp, County_Name TEXT, FIPS_Code TEXT, County_Seat TEXT, Created TEXT, Formed_From TEXT, Named_For TEXT,Density TEXT, Pop_2010 TEXT, Area TEXT)')
 
-# Creating a second table with 1 column and set it as PRIMARY KEY
-# note that PRIMARY KEY column must consist of unique values!
-c.execute('CREATE TABLE {tn} ({nf} {ft} PRIMARY KEY)'\
-        .format(tn=table_name2, nf=new_field, ft=field_type))
-# Committing changes and closing the connection to the database file
+    conn.commit()
+    conn.close()
 
-#Test
-c.execute('CREATE TABLE {tn} ({nf} {ft} PRIMARY KEY, {nf1} {ft1})'\
-        .format(tn=table_name3, nf=new_field, ft=field_type, nf1=new_field2, ft1=field_type))
+except:
+    pass
 
-
-conn.commit()
-conn.close()
 '''
-# Connecting to the database file
-conn = sqlite3.connect(sqlite_file)
-c = conn.cursor()
-
-# A) Adding a new column without a row value
-c.execute("ALTER TABLE {tn} ADD COLUMN '{cn}' {ct}"\
-        .format(tn=table_name, cn=new_column1, ct=column_type))
-
-# B) Adding a new column with a default row value
-c.execute("ALTER TABLE {tn} ADD COLUMN '{cn}' {ct} DEFAULT '{df}'"\
-        .format(tn=table_name, cn=new_column2, ct=column_type, df=default_val))
-
-# Committing changes and closing the connection to the database file
-conn.commit()
-conn.close()
-
 # A) Inserts an ID with a specific value in a second column
 try:
     c.execute("INSERT INTO {tn} ({idf}, {cn}) VALUES (123456, 'test')".\
