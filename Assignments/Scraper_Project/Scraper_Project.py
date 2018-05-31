@@ -61,25 +61,20 @@ import sqlite3
 
 #Create Database and Tables if they don't exist
 
-try:
+#Create Wikipedia Table and User Entry Table
 
-    #Create Wikipedia Table and User Entry Table
+# Connecting to the database file
+conn = sqlite3.connect('County_DB.sqlite') #put in with statement and then put in an except with a close at end
+c = conn.cursor()
 
-    # Connecting to the database file
-    conn = sqlite3.connect('County_DB.sqlite')
-    c = conn.cursor()
+#Wikipedia_Table
+c.execute('CREATE TABLE WIKIPEDIA_TABLE (County_Name TEXT PRIMARY KEY, FIPS_Code TEXT, County_Seat TEXT, Created TEXT, Formed_From TEXT, Named_For TEXT,Density TEXT, Pop_2010 TEXT, Area TEXT)')
 
-    #Wikipedia_Table
-    c.execute('CREATE TABLE WIKIPEDIA_TABLE (County_Name TEXT PRIMARY KEY, FIPS_Code TEXT, County_Seat TEXT, Created TEXT, Formed_From TEXT, Named_For TEXT,Density TEXT, Pop_2010 TEXT, Area TEXT)')
+#User Entry Table
+c.execute('CREATE TABLE USER_ENTRY_TABLE (Entry_ID INTEGER PRIMARY KEY AUTOINCREMENT, User_Address TEXT, Entry_Timestamp Timestamp, County_Name TEXT, FIPS_Code TEXT, County_Seat TEXT, Created TEXT, Formed_From TEXT, Named_For TEXT,Density TEXT, Pop_2010 TEXT, Area TEXT)')
 
-    #User Entry Table
-    c.execute('CREATE TABLE USER_ENTRY_TABLE (Entry_ID INTEGER PRIMARY KEY AUTOINCREMENT, User_Address TEXT, Entry_Timestamp Timestamp, County_Name TEXT, FIPS_Code TEXT, County_Seat TEXT, Created TEXT, Formed_From TEXT, Named_For TEXT,Density TEXT, Pop_2010 TEXT, Area TEXT)')
-
-    conn.commit()
-    conn.close()
-
-except:
-    pass
+conn.commit()
+conn.close()
 
 '''
 # A) Inserts an ID with a specific value in a second column
