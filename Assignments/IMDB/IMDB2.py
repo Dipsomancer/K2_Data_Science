@@ -75,14 +75,21 @@ print(k['genres'][0]['id'])
 '''
 
 #movies['genres'] = movies['genres'].to_json()
+import json
+#print(movies['genres'].head())
+#print(movies['genres'].apply(json.loads).head())
+#print(type(movies['genres'][0][0]))
 
-movies['genres'].to_json()
+#print(type(movies['genres'].apply(json.loads)[0][0]))
+
+movies['genres'] = movies['genres'].apply(json.loads)
+print(type(movies['genres'][0][0]))
 
 #movies['genres'] = to_json(movies['genres'])
 
 #print(movies.head())
 
-print(type(movies['genres']))
+#print(type(movies['genres']))
 #print(movies['genres'][0][0])
 
 '''
