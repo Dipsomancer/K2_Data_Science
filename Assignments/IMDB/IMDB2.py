@@ -83,7 +83,20 @@ import json
 #print(type(movies['genres'].apply(json.loads)[0][0]))
 
 movies['genres'] = movies['genres'].apply(json.loads)
-print(type(movies['genres'][0][0]))
+#print(type(movies['genres'][0][0]))
+##print(movies['genres'][0])
+
+#for i in movies['genres'][0]:
+#    print(i['name'])
+
+list = []
+
+for i in movies['genres'][0]:
+    list.append(i['name'])
+
+print(list)
+
+#print(movies.head())
 
 #movies['genres'] = to_json(movies['genres'])
 
