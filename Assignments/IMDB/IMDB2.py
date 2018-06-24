@@ -74,13 +74,7 @@ k['genres'] = ast.literal_eval(k[0])
 print(k['genres'][0]['id'])
 '''
 
-#movies['genres'] = movies['genres'].to_json()
 import json
-#print(movies['genres'].head())
-#print(movies['genres'].apply(json.loads).head())
-#print(type(movies['genres'][0][0]))
-
-#print(type(movies['genres'].apply(json.loads)[0][0]))
 
 movies['genres'] = movies['genres'].apply(json.loads)
 #print(type(movies['genres'][0][0]))
@@ -89,37 +83,16 @@ movies['genres'] = movies['genres'].apply(json.loads)
 #for i in movies['genres'][0]:
 #    print(i['name'])
 
-list = []
+def to_list(array):
+    list = []
+    for i in array:
+        list.append(i['name'])
+    return list
 
-for i in movies['genres'][0]:
-    list.append(i['name'])
+movies['genres'] = movies['genres'].apply(to_list)
 
-print(list)
+print(movies.head())
 
-#print(movies.head())
-
-#movies['genres'] = to_json(movies['genres'])
-
-#print(movies.head())
-
-#print(type(movies['genres']))
-#print(movies['genres'][0][0])
-
-'''
-import json
-
-#json.dumps(movies['genres'])
-
-#json.dumps(movies)
-
-#json.load(movies['genres'])
-
-#json.load(movies)
-
-#movies.apply(lambda x: x.to_json("row{}.json".format(x.genres)), axis = 1)
-
-print(movies['genres'][0])
-'''
 # **Question 1** – How does gross revenue vary for genre, content rating (R, PG13, etc.), Facebook likes, budget, cast total likes, IMDB likes, etc.?  In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 #
 # **Details** – These kinds of questions influence how much a movie studio might want to spend on social media marketing, on actors, on their budget, or in reaching out to critics to review movies. With evidence from data, decision makers are better able to understand how to meet their objectives. The column genre represents a list of genres associated with the movie in a string format separated by | . Write code to parse each text string into a binary vector with 1s representing the presence of a genre and 0s the absence, and add it to the DataFrame as additional columns. This may help you explore gross revenue as a function of genre. Many of the other features are numerical and lend themselves to scatterplots.
