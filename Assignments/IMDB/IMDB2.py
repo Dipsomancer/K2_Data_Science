@@ -89,6 +89,20 @@ def to_list(array):
         list.append(i['name'])
     return list
 
+Dictionary = {}
+
+def update_dictionary(Dictionary, array):
+    for i in array['genres']:
+        for x in i:
+            if x in Dictionary.values():
+                Dictionary[x] += array[i]['revenue']
+            else:
+                key = str(frozen_set(array[i][x]))
+                value = int(frozen_set(array[i]['revenue']))
+                Dictionary.update({key : value})
+
+update_dictionary(Dictionary, movies)
+
 movies['genres'] = movies['genres'].apply(to_list)
 
 print(movies.head())
