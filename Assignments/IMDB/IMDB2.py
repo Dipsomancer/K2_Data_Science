@@ -83,6 +83,15 @@ movies['genres'] = movies['genres'].apply(json.loads)
 #for i in movies['genres'][0]:
 #    print(i['name'])
 
+for a, row in movies.iterrows():
+    print(type(row))
+    for i, cell in enumerate(row):
+        print(i)
+        print(cell)
+    print([genres['name'] for genres in row[1]])
+    break
+
+'''
 def to_list(array):
     list = []
     for i in array:
@@ -106,7 +115,7 @@ update_dictionary(Dictionary, movies)
 movies['genres'] = movies['genres'].apply(to_list)
 
 print(movies.head())
-
+'''
 # **Question 1** – How does gross revenue vary for genre, content rating (R, PG13, etc.), Facebook likes, budget, cast total likes, IMDB likes, etc.?  In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 #
 # **Details** – These kinds of questions influence how much a movie studio might want to spend on social media marketing, on actors, on their budget, or in reaching out to critics to review movies. With evidence from data, decision makers are better able to understand how to meet their objectives. The column genre represents a list of genres associated with the movie in a string format separated by | . Write code to parse each text string into a binary vector with 1s representing the presence of a genre and 0s the absence, and add it to the DataFrame as additional columns. This may help you explore gross revenue as a function of genre. Many of the other features are numerical and lend themselves to scatterplots.
