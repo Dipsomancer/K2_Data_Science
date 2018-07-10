@@ -90,16 +90,24 @@ for a, row in movies.iterrows():
         print(cell)
     print([genres['name'] for genres in row[1]])
     break
-'''
+
 def list_from_json(table_name, column_field, field_variable):
     for a, row in table_name.iterrows():
         return [column_field[field_variable] for column_field in row[1]]
+'''
 
+def list_from_json(table_name, column_field, field_variable):
+    i = []
+    for a, row in table_name.iterrows():
+        i.append([column_field[field_variable] for column_field in row[1]])
+    return i
 
 #print(list_from_json(movies, 'genres', 'name'))
 
 movies['test'] = list_from_json(movies, 'genres', 'name')
-#print(movies.head())
+#movies['test'] = 'abc'
+
+print(movies.head())
 
 # **Question 1** – How does gross revenue vary for genre, content rating (R, PG13, etc.), Facebook likes, budget, cast total likes, IMDB likes, etc.?  In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 #
