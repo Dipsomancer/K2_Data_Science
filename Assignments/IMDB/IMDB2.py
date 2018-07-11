@@ -112,14 +112,20 @@ movies['test'] = list_from_json(movies, 'genres', 'name')
 genres_set = set(x for l in movies['test'] for x in l)
 
 genres_dictionary = dict.fromkeys(genres_set,0)
-
+'''
 for i in genres_set:
     for r in movies['test']:
         if i in r:
-            print('true')
-        else:
-            print('false')    
+            genres_dictionary[i] += sum(movies['revenue'])
+'''
+for i in genres_set:
+    for r in movies['test']:
+        c = 0
+        if i in r:
+            c += sum(movies['revenue'])
+        genres_dictionary[i] += c
 
+print(genres_dictionary)
 
 # **Question 1** – How does gross revenue vary for genre, content rating (R, PG13, etc.), Facebook likes, budget, cast total likes, IMDB likes, etc.?  In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 #
