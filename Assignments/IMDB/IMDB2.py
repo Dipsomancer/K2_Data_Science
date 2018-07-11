@@ -112,18 +112,11 @@ movies['test'] = list_from_json(movies, 'genres', 'name')
 genres_set = set(x for l in movies['test'] for x in l)
 
 genres_dictionary = dict.fromkeys(genres_set,0)
-'''
+
 for i in genres_set:
-    for r in movies['test']:
-        if i in r:
-            genres_dictionary[i] += sum(movies['revenue'])
-'''
-for i in genres_set:
-    for r in movies['test']:
-        c = 0
-        if i in r:
-            c += sum(movies['revenue'])
-        genres_dictionary[i] += c
+    for index, r in movies.iterrows():
+        if i in r['test']:
+            genres_dictionary[i] += r['revenue']
 
 print(genres_dictionary)
 
