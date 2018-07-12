@@ -10,7 +10,7 @@ credits = pd.read_csv('tmdb_5000_credits.csv')
 
 #print(credits.head())
 
-print(movies.head())
+#print(movies.head())
 
 #credits.head()
 
@@ -132,8 +132,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-sns.jointplot(data=movies, x='revenue', y='budget', kind='reg', color='g')
-plt.show()
+#sns.jointplot(data=movies, x='revenue', y='budget', kind='reg', color='g')
+#plt.show()
 
 #Revenue and Budget have a positive correlation .73 (Pearson), but not statistially significant given the sample size
 
@@ -141,10 +141,26 @@ plt.show()
 
 #IMDB likes?
 
+#Not in data set
+
+#Not in set, using popularity
+
+#sns.jointplot(data=movies, x='revenue', y='popularity', kind='reg', color='g')
+#plt.show()
+
+#Again, correlation, but weak given sample size (.64).  Some outliers with 400+ rating may skew data set, but no reason to remove
+
 #In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 
-###movies.isnull().sum()
+movies_01 = movies[['budget', 'popularity', 'revenue', 'runtime']].copy()
 
+#print(movies_01.describe())
+
+print(movies_01.corr())
+
+#No significant correlations other than what was refferenced above
+
+###movies.isnull().sum()
 
 # Some Homepages, Overviews, Release Dates, Runtimes, and Taglines missing, but no NULLs in other areas...
 
