@@ -1,11 +1,3 @@
-
-# coding: utf-8
-
-# *Module 2 Final Project: IMDB Dataset*
-
-# In[1]:
-
-
 #Import Modules and CSV data
 
 import pandas as pd
@@ -17,6 +9,8 @@ credits = pd.read_csv('tmdb_5000_credits.csv')
 #pd.set_option('display.max_colwidth', -1)
 
 #print(credits.head())
+
+print(movies.head())
 
 #credits.head()
 
@@ -57,7 +51,6 @@ credits = pd.read_csv('tmdb_5000_credits.csv')
 #credits[credits.movie_id==19995].title.iloc[0]
 
 
-# In[25]:
 '''
 import ast
 import itertools
@@ -77,24 +70,8 @@ print(k['genres'][0]['id'])
 import json
 
 movies['genres'] = movies['genres'].apply(json.loads)
-#print(type(movies['genres'][0][0]))
-##print(movies['genres'][0])
 
-#for i in movies['genres'][0]:
-#    print(i['name'])
-'''
-for a, row in movies.iterrows():
-    print(type(row))
-    for i, cell in enumerate(row):
-        print(i)
-        print(cell)
-    print([genres['name'] for genres in row[1]])
-    break
-
-def list_from_json(table_name, column_field, field_variable):
-    for a, row in table_name.iterrows():
-        return [column_field[field_variable] for column_field in row[1]]
-'''
+#Helper Function for turning nested JSON-ish column into list with desired fields
 
 def list_from_json(table_name, column_field, field_variable):
     i = []
@@ -102,30 +79,69 @@ def list_from_json(table_name, column_field, field_variable):
         i.append([column_field[field_variable] for column_field in row[1]])
     return i
 
-#print(list_from_json(movies, 'genres', 'name'))
+#Run helper function for 'genres' field and create 'test' field
 
 movies['test'] = list_from_json(movies, 'genres', 'name')
-#movies['test'] = 'abc'
 
-#print(movies.head())
+#Convert list to a set of distinct values (genres) to iterate over
 
 genres_set = set(x for l in movies['test'] for x in l)
 
+#Create Dictionary from set list, with default value of 0
+
 genres_dictionary = dict.fromkeys(genres_set,0)
+
+#Iterate over genres set list, and then genres in 'test' column to get total revenue by genre
 
 for i in genres_set:
     for index, r in movies.iterrows():
         if i in r['test']:
             genres_dictionary[i] += r['revenue']
 
-print(genres_dictionary)
+#Since dictionaries can't be indexed on, import operator library
 
-# **Question 1** – How does gross revenue vary for genre, content rating (R, PG13, etc.), Facebook likes, budget, cast total likes, IMDB likes, etc.?  In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
-#
-# **Details** – These kinds of questions influence how much a movie studio might want to spend on social media marketing, on actors, on their budget, or in reaching out to critics to review movies. With evidence from data, decision makers are better able to understand how to meet their objectives. The column genre represents a list of genres associated with the movie in a string format separated by | . Write code to parse each text string into a binary vector with 1s representing the presence of a genre and 0s the absence, and add it to the DataFrame as additional columns. This may help you explore gross revenue as a function of genre. Many of the other features are numerical and lend themselves to scatterplots.
+import operator
 
-# In[7]:
+#Sort genres dictionary on revenue, and return sorted list
 
+genres_dictionary_s = sorted(genres_dictionary.items(), key=operator.itemgetter(1))
+
+#print(genres_dictionary_s)
+
+
+
+# **Question 1**
+#How does gross revenue vary for genre?
+'''
+[('TV Movie', 0), ('Foreign', 12398151), ('Documentary', 1082277678), ('Western', 3792169111), ('Music', 8964351078), ('History', 11332141732), ('War', 12118445911), ('Horror', 22599894663), ('Mystery', 27248722761), ('Crime', 46040860686), ('Animation', 52812167865), ('Romance', 53642137545), ('Science Fiction', 81564235745), ('Fantasy', 81982199925), ('Family', 83283238689), ('Thriller', 103250426269), ('Drama', 119710983984), ('Comedy', 122760517608), ('Action', 162959914515), ('Adventure', 164841561551)]
+'''
+#...content rating (R, PG13, etc.)?
+
+#Not a part of the updated data sets! :/
+
+#Facebook likes?
+
+#Same as above! :/
+
+#budget?
+
+#Try correlation to see relationship?
+
+import seaborn as sns
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+sns.jointplot(data=movies, x='revenue', y='budget', kind='reg', color='g')
+plt.show()
+
+#Revenue and Budget have a positive correlation .73 (Pearson), but not statistially significant given the sample size
+
+#cast total likes?
+
+#IMDB likes?
+
+#In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 
 ###movies.isnull().sum()
 
