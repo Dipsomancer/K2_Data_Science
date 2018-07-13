@@ -156,7 +156,7 @@ movies_01 = movies[['budget', 'popularity', 'revenue', 'runtime']].copy()
 
 #print(movies_01.describe())
 
-print(movies_01.corr())
+#print(movies_01.corr())
 
 #No significant correlations other than what was refferenced above
 
@@ -167,6 +167,57 @@ print(movies_01.corr())
 # **Question 2** – What famous actors and directors have the highest budget to gross ratio?
 #
 # **Details** – When a studio spends money on a big name they expect it to greatly increase their revenue, but is this always the case? After selecting actors and directors that appear frequently in the dataset, who is the most worth it? Do these actors and directors consistently appear in one genre or are they profitable across various genres?
+
+#Creare new data frame joining credits and movies
+
+Test = pd.merge(movies, credits,left_on=['id'], right_on=['movie_id'], how='inner')
+
+Test2 = Test[['budget','revenue','crew','cast']]
+
+Test['crew'] = Test['crew'].apply(json.loads)
+
+def list_from_json2(table_name, column_field, field_variable):
+    i = []
+    for a, row in table_name.iterrows():
+        i.append([column_field[field_variable] for column_field in row[20]])
+    return i
+
+
+Test['crew'] = list_from_json2(Test, 'crew', 'Director')
+
+#"job": "Director", "name": ""
+
+#movies['crew'] = list_from_json(Test2, 'crew', 'Director')
+
+#print(Test2.loc['crew'][1]['Director'])
+
+'''
+#Convert list to a set of distinct values (genres) to iterate over
+
+genres_set = set(x for l in movies['test'] for x in l)
+
+#Create Dictionary from set list, with default value of 0
+
+genres_dictionary = dict.fromkeys(genres_set,0)
+
+#Iterate over genres set list, and then genres in 'test' column to get total revenue by genre
+
+for i in genres_set:
+    for index, r in movies.iterrows():
+        if i in r['test']:
+            genres_dictionary[i] += r['revenue']
+
+#Since dictionaries can't be indexed on, import operator library
+
+import operator
+
+#Sort genres dictionary on revenue, and return sorted list
+
+genres_dictionary_s = sorted(genres_dictionary.items(), key=operator.itemgetter(1))
+
+#print(genres_dictionary_s)
+
+'''
 
 # **Question 3** – What movies where the biggest flops? Are there factors that are associated with flops?
 #
