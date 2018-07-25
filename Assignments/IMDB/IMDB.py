@@ -135,7 +135,7 @@ import matplotlib.pyplot as plt
 #sns.jointplot(data=movies, x='revenue', y='budget', kind='reg', color='g')
 #plt.show()
 
-#Revenue and Budget have a positive correlation .73 (Pearson), but not statistially significant given the sample size
+#Revenue and Budget have a positive correlation .73 (Pearson), so is statistially significant given the sample size but may not be meaningful
 
 #cast total likes?
 
@@ -148,7 +148,7 @@ import matplotlib.pyplot as plt
 #sns.jointplot(data=movies, x='revenue', y='popularity', kind='reg', color='g')
 #plt.show()
 
-#Again, correlation, but weak given sample size (.64).  Some outliers with 400+ rating may skew data set, but no reason to remove
+#Again, correlation (.64).  Some outliers with 400+ rating may skew data set, but no reason to remove
 
 #In general, how are these variables related to each other? For example, do social media likes align with critic’s views?
 
@@ -170,11 +170,29 @@ movies_01 = movies[['budget', 'popularity', 'revenue', 'runtime']].copy()
 
 #Creare new data frame joining credits and movies
 
+pd.options.mode.chained_assignment = None
+
 Test = pd.merge(movies, credits,left_on=['id'], right_on=['movie_id'], how='inner')
 
 Test2 = Test[['budget','revenue','crew','cast']]
 
-Test['crew'] = Test['crew'].apply(json.loads)
+#Test2['crew'] = Test2['crew'].apply(json.loads)
+
+
+count = 1
+
+for index, row in Test2.iterrows():
+    #try:
+    print(type(row[2]))
+    Test2['crew'][index] = json.loads(row[2])
+    print(type(row[2]))
+    break
+
+    #except:
+    print(str(count))
+    count += 1
+    print('Data failure')
+    break
 
 def list_from_json2(table_name, column_field, field_variable):
     i = []
@@ -183,7 +201,7 @@ def list_from_json2(table_name, column_field, field_variable):
     return i
 
 
-Test['crew'] = list_from_json2(Test, 'crew', 'Director')
+###Test2['crew'] = list_from_json2(Test2, 'crew', 'Director')
 
 #"job": "Director", "name": ""
 
